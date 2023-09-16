@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "fontawesome-4.7/css/font-awesome.css";
+@import 'material-icons/iconfont/material-icons.css';
+
+body,html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+    display: block;
+}

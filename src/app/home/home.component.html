@@ -1,0 +1,121 @@
+<div class="hidden" *ngFor="let item of rocketTelemetry">{{ item.address }} - {{ item.port }} - <i
+        class="material-icons-two-tone align-text-bottom">speed</i> {{ item.speed }} 𝑚/𝑠 - <i
+        class="material-icons-two-tone align-text-bottom">area_chart</i> {{ item.altitude }} 𝑚 - {{ item.acceleration
+    }} 𝑚/𝑠2 - <span class="material-icons align-text-bottom">device_thermostat</span> {{ item.temperature }} ℃ - {{
+    item.thrust }} 𝑁</div>
+
+
+<div class="flex gap-x-4">
+    <div class="flex flex-col gap-y-2 w-[450px]">
+        <a class="flex bg-slate-100 hover:bg-slate-200 hover:bg-opacity-60 p-2 border border-slate-200 text-slate-800 cursor-pointer shadow-sm min-w-[450px]"
+            *ngFor="let r of rockets" (click)="rocketSelected($event,r)">
+            <div class="p-1 pl-1 pr-4">
+                <span
+                    class="material-icons align-text-top text-3xl 
+                {{ r.status === 'launched' ? 'text-lime-600' : (r.status === 'deployed' ? 'text-cyan-600' : (r.status === 'failed' ? 'text-red-600' : (r.status === 'waiting' ? 'text-gray-500' : '')))  }}">
+                    {{ r.status === 'launched' ? 'rocket_launch' : 'rocket' }}
+                </span>
+            </div>
+            <div class="flex flex-col w-full">
+                <div class="font-semibold">{{ r.model }} <small class="text-slate-500">{{ r.id }}</small></div>
+                <div class="text-xs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 w-full mt-2">
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Altitude: (𝑚)<br>
+                        {{ r.altitude ? r.altitude : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Speed: (𝑚/𝑠)<br>
+                        {{ r.speed ? r.speed : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Acceleration: (𝑚/𝑠2)<br>
+                        {{ r.acceleration ? r.acceleration : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Thrust: (𝑁)<br>
+                        {{ r.thrust ? r.thrust : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Temperature: (℃)<br>
+                        {{ r.temperature ? r.temperature : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Status:<br> {{ r.status ?
+                        r.status : '-' }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+    </div>
+
+
+    <div class="flex flex-col gap-y-2 w-full">
+        <div *ngIf="selected"
+            class="flex bg-slate-100 p-3 border border-slate-200 text-slate-800 cursor-pointer shadow-sm">
+            <div class="p-1 pl-1 pr-4">
+                <span
+                    class="material-icons align-text-top text-3xl 
+                {{ selected.status === 'launched' ? 'text-lime-600' : (selected.status === 'deployed' ? 'text-cyan-600' : (selected.status === 'failed' ? 'text-red-600' : (selected.status === 'waiting' ? 'text-gray-500' : '')))  }}">
+                    {{ selected.status === 'launched' ? 'rocket_launch' : 'rocket' }}
+                </span>
+            </div>
+            <div class="flex flex-col w-full">
+                <div class="font-semibold text-3xl mb-2">{{ selected.model }} <small class="text-slate-500 text-sm">{{
+                        selected.id }}</small></div>
+                <div class="text-sm grid grid-cols-1 xl:grid-cols-3 gap-1 w-full mt-2">
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Altitude:
+                            (𝑚)</b><br>
+                        {{ selected.altitude ? selected.altitude : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Speed:
+                            (𝑚/𝑠)</b><br>
+                        {{ selected.speed ? selected.speed : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Acceleration: (𝑚/𝑠2)</b><br>
+                        {{ selected.acceleration ? selected.acceleration : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Thrust:
+                            (𝑁)</b><br>
+                        {{ selected.thrust ? selected.thrust : '-' }}</div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Temperature: (℃)</b><br> {{
+                        selected.temperature ? selected.temperature : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Status:</b><br> {{ selected.status ? selected.status : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Payload:</b><br> {{ selected.payload.description ? selected.payload.description : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Payload
+                            Weight:</b><br> {{ selected.payload.weight ? selected.payload.weight : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Launched:</b><br> {{ selected.timestamps.launched ? selected.timestamps.launched : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Deployed:</b><br> {{ selected.timestamps.deployed ? selected.timestamps.deployed : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Failed:</b><br> {{ selected.timestamps.failed ? selected.timestamps.failed : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Canceled:</b><br> {{ selected.timestamps.canceled ? selected.timestamps.canceled : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Telemetry:</b><br> {{ selected.telemetry.host+':'+selected.telemetry.port }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Mass:</b><br> {{ selected.mass ? selected.mass : '-' }}
+                    </div>
+
+                </div>
+
+                <div class="mt-3 flex gap-x-3">
+                    <button *ngIf="selected.status === 'waiting' || selected.status === 'cancelled'"
+                        class="py-2 px-8 bg-cyan-600 text-white rounded border border-cyan-500 hover:bg-opacity-75 font-semibold"
+                        (click)="deployRocket(selected.id)">Deploy</button>
+                    <button *ngIf="selected.status === 'deployed'"
+                        class="py-2 px-8 bg-lime-600 text-white rounded border border-lime-500 hover:bg-opacity-75 font-semibold"
+                        (click)="launchRocket(selected.id)">Launch</button>
+                    <button *ngIf="selected.status === 'launched'"
+                        class="py-2 px-8 bg-red-600 text-white rounded border border-red-500 hover:bg-opacity-75 font-semibold"
+                        (click)="cancelLaunch(selected.id)">Cancel</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

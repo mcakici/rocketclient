@@ -1,0 +1,13 @@
+<div class="flex flex-col items-stretch h-fit min-h-screen">
+  <div
+    class="py-3 px-3 text-lg font-bold border-b-[1px] border-solid border-slate-300 text-slate-700 bg-slate-100 shadow-sm z-10 relative">
+    <i class="fa fa-rocket hidden" aria-hidden="true"></i> <span class="material-icons align-text-top">rocket</span>
+    Rocket Launch Station Control System <small class="text-slate-500">v0.1</small> <button class="ml-3" (click)="refresh()"><i class="fa fa-refresh"></i></button>
+  </div>
+  <div class="py-3 px-3 flex-1 bg-slate-50 border-b-violet-500 border-solid border-b-2 shadow-inner relative">
+    <router-outlet></router-outlet>
+    
+  </div>
+  <!-- <div class="w-full h-full fixed bg-slate-900 bg-opacity-50 text-center my-auto mx-auto z-50">
+    <div class="flex items-center justify-center">Loading.</div></div> -->
+</div>
