@@ -54,6 +54,7 @@ export class WebSocketService {
 			closeObserver: {
 				next: () => {
 					this.isConnected = false;
+					this.data = [];
 				},
 			},
 			serializer: (msg: string) => msg,

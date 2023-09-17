@@ -1,12 +1,17 @@
 {
-    "/rockets": {
-      "target": "http://localhost:5000",
-      "secure": false,
-      "changeOrigin": true
-    },
-    "/rockets/*": {
-        "target": "http://localhost:5000",
-        "secure": false,
-        "changeOrigin": true
-      }
+  "/rockets": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rockets/*": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/weather": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true
   }
+}

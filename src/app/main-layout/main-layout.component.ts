@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from '../home/home.component';
 
 @Component({
 	selector: 'app-main-layout',
 	templateUrl: './main-layout.component.html',
 	styleUrls: ['./main-layout.component.scss'],
-	providers: [HomeComponent],
 })
-export class MainLayoutComponent {
-
-  constructor(private homeComponent: HomeComponent ) { }
+export class MainLayoutComponent {	
+	constructor() {}
 
 	refresh() {
-		this.homeComponent.refreshRocketInformation();
+		document.getElementById('refresh')?.click();
 	}
 }

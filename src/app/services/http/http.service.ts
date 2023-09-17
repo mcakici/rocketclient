@@ -1,6 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { retry, catchError, take } from 'rxjs/operators';
+import { retry, catchError, take, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -13,7 +13,6 @@ export class HttpService {
 
 	get(url: string, header?: object[] | null, callback?: any, rspType?: any, errCallback?: any): any {
 		let hdr = new HttpHeaders();
-		hdr = hdr.append('Cache-Control', 'no-cache');
 		if (header) {
 			header.forEach((hd: any) => {
 				hdr = hdr.append(hd.name, hd.value);
@@ -59,14 +58,10 @@ export class HttpService {
 						case 200:
 							if (callback) callback(data.body);
 							break;
-						case 304:
-							console.log('304 hatası');
-							if (callback) callback(304);
-							break;
 					}
 				},
 				error: (error: any) => {
-					console.error('put hata verdi',error);
+					console.error(error);
 					if (errCallback) errCallback(error);
 				},
 				complete: () => {},
@@ -91,9 +86,6 @@ export class HttpService {
 					switch (data.status) {
 						case 200:
 							if (callback) callback(data.body);
-							break;
-						case 304:
-							if (callback) callback(304);
 							break;
 					}
 				},
