@@ -124,15 +124,14 @@ class telemetryWebSocket {
                 }
             }
             return json_encode($outputArr);
-        } catch (\Throwable $th) {
+        } catch (Exception $ex) {
             //throw $th;
         }
     }
 
     private function connectTCPSocket($key = null) {
         if ($key !== null) {
-            //socket_close($this->telemetrySocket[$key]);
-            unset($this->telemetrySocket[$key]);
+            socket_close($this->telemetrySocket[$key]);
 
             $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             if ($this->telemetrySocket[$key] === false) {
