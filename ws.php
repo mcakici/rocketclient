@@ -131,7 +131,7 @@ class telemetryWebSocket {
 
     private function connectTCPSocket($key = null) {
         if ($key !== null) {
-            socket_close($this->telemetrySocket[$key]);
+            //socket_close($this->telemetrySocket[$key]);
             unset($this->telemetrySocket[$key]);
 
             $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);

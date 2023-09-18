@@ -50,7 +50,7 @@ export class HttpService {
 
 		return this.http
 			.put<any>(url, '', { observe: 'response', responseType: rspType ? rspType : 'json', headers: hdr })
-			.pipe(retry(3))
+			.pipe(retry(5))
 			.subscribe({
 				next: (data: any) => {
 					console.log(data);
