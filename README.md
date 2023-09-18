@@ -23,7 +23,7 @@ Then run `php -f ws.php`
 - https://www.php.net/ (PHP 8.0.13)
 - https://www.postman.com/
 - https://www.docker.com/
-- https://chat.openai.com/ (decoding hex)
+- https://chat.openai.com/ (decoding communication protocol)
 
 
 ## Layout
