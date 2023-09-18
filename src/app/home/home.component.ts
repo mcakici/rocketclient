@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { WebSocketService } from '../services/websocket/web-socket.service';
 import { HttpService } from '../services/http/http.service';
-import * as _ from 'lodash';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss'],
+	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
 	public rocketTelemetry: any = [];
@@ -84,7 +83,8 @@ export class HomeComponent {
 
 		this.loading = true;
 		this.http.get('//localhost:5000/rockets', [{ name: 'X-API-Key', value: 'API_KEY_1' }], (data: any) => {
-			this.loadingState(false);
+			if (document.getElementById('loadingText')?.innerText === 'Loading..')
+				this.loadingState(false);
 			this.loading = false;
 			if (this.rockets.length == 0) {
 				this.rockets = data;
@@ -144,7 +144,7 @@ export class HomeComponent {
 	}
 
 	cancelLaunch(rocketId: string) {
-		this.loadingState(true, 'Rocket ' + rocketId + ' launch is cancelling..');
+		this.loadingState(true, 'Rocket ' + rocketId + ' launch is being canceled..');
 		this.http.delete(
 			'//localhost:5000/rocket/' + rocketId + '/status/launched',
 			[{ name: 'X-API-Key', value: 'API_KEY_1' }],
@@ -164,17 +164,8 @@ export class HomeComponent {
 	}
 
 	getWeather() {
-		/* fetch('http://localhost:5000/weather', {
-			method: 'GET',
-			headers: {
-				'X-API-Key': 'API_KEY_1'
-			},
-		})
-			.then((response) => { console.log(response); this.weather = response.json(); })
-			.catch((err) => console.error(err)); */
 		this.http.get('//localhost:5000/weather', [{ name: 'X-API-Key', value: 'API_KEY_1' }], (data: any) => {
 			console.log(data);
-
 			this.weather = data;
 		},'json');
 	}

@@ -19,13 +19,13 @@
                 </div>
                 <div class="text-xs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 w-full mt-2">
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Altitude: (𝑚)<br>
-                        {{ r.altitude ? r.altitude : '-' }}</div>
+                        {{ r.altitude ? (r.altitude | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Speed: (𝑚/𝑠)<br>
-                        {{ r.speed ? r.speed : '-' }}</div>
+                        {{ r.speed ? (r.speed | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Acceleration: (𝑚/𝑠2)<br>
-                        {{ r.acceleration ? r.acceleration : '-' }}</div>
+                        {{ r.acceleration ? (r.acceleration | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Thrust: (𝑁)<br>
-                        {{ r.thrust ? r.thrust : '-' }}</div>
+                        {{ r.thrust ? (r.thrust | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Temperature: (℃)<br>
                         {{ r.temperature ? r.temperature : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50">Status:<br>
@@ -41,19 +41,60 @@
 
     <div class="flex flex-col gap-y-2 w-full">
 
-        <div *ngIf="weather?.precipitation">
-            Temperature: {{ weather.temperature }}
-            humidity: {{ weather.humidity }}
-            Temperature: {{ weather.pressure }}
-            Temperature: {{ weather.precipitation.probability }}
-            Temperature: {{ weather.precipitation.rain }}
-            Temperature: {{ weather.precipitation.snow }}
-            Temperature: {{ weather.precipitation.sleet }}
-            Temperature: {{ weather.precipitation.hail }}
-            Time: {{ weather.time }}
-            wind: {{ weather.wind.direction }}
-            wind: {{ weather.wind.angle }}
-            wind: {{ weather.wind.speed }}
+        <div *ngIf="weather?.precipitation"
+            class="flex bg-slate-100 p-3 py-3 mb-2 border border-slate-200 text-slate-800 shadow-sm">
+            <div class="text-sm grid grid-cols-1 xl:grid-cols-4 gap-1 w-full">
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Time:</b><br>
+                    {{ weather.time | date: 'HH:mm:ss  dd.MM.yyyy':'UTC +6' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Temperature:</b><br>
+                    {{ weather.temperature ? weather.temperature : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Humidity:</b><br>
+                    {{ weather.humidity ? weather.humidity : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Pressure:</b><br>
+                    {{ weather.pressure ? weather.pressure : '-' }}
+                </div>
+
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Wind Direction:</b><br>
+                    {{ weather.wind.direction ? weather.wind.direction : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Wind Angle:</b><br>
+                    {{ weather.wind.angle ? weather.wind.angle : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Wind Speed:</b><br>
+                    {{ weather.wind.speed ? weather.wind.speed : '-' }}
+                </div>
+
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Precipitation Probability:</b><br>
+                    {{ weather.precipitation.probability ? weather.precipitation.probability : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Precipitation Rain:</b><br>
+                    {{ weather.precipitation.rain ? weather.precipitation.rain : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Precipitation Snow:</b><br>
+                    {{ weather.precipitation.snow ? weather.precipitation.snow : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Precipitation Sleet:</b><br>
+                    {{ weather.precipitation.sleet ? weather.precipitation.sleet : '-' }}
+                </div>
+                <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                    <b>Precipitation Hail:</b><br>
+                    {{ weather.precipitation.hail ? weather.precipitation.hail : '-' }}
+                </div>
+            </div>
         </div>
 
 
@@ -77,54 +118,54 @@
                 <div class="text-sm grid grid-cols-1 xl:grid-cols-3 gap-1 w-full mt-2">
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Altitude:
                             (𝑚)</b><br>
-                        {{ rockets[selectedIndex].altitude ? rockets[selectedIndex].altitude : '-' }}</div>
+                        {{ rockets[selectedIndex].altitude ? (rockets[selectedIndex].altitude | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Speed:
                             (𝑚/𝑠)</b><br>
-                        {{ rockets[selectedIndex].speed ? rockets[selectedIndex].speed : '-' }}</div>
+                        {{ rockets[selectedIndex].speed ? (rockets[selectedIndex].speed | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Acceleration: (𝑚/𝑠2)</b><br>
-                        {{ rockets[selectedIndex].acceleration ? rockets[selectedIndex].acceleration : '-' }}
+                        {{ rockets[selectedIndex].acceleration ? (rockets[selectedIndex].acceleration | number) : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Thrust:
                             (𝑁)</b><br>
-                        {{ rockets[selectedIndex].thrust ? rockets[selectedIndex].thrust : '-' }}</div>
+                        {{ rockets[selectedIndex].thrust ? (rockets[selectedIndex].thrust | number) : '-' }}</div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Temperature: (℃)</b><br> {{
                         rockets[selectedIndex].temperature ? rockets[selectedIndex].temperature : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
-                        <b>Status:</b><br> {{ rockets[selectedIndex].status ? rockets[selectedIndex].status : '-' }}
+                        <b>Status:</b><br> <span class="uppercase">{{ rockets[selectedIndex].status ? rockets[selectedIndex].status : '-' }}</span>
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Payload:</b><br> {{ rockets[selectedIndex].payload.description ?
                         rockets[selectedIndex].payload.description : '-' }}
                     </div>
-                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden"><b>Payload
-                            Weight:</b><br> {{ rockets[selectedIndex].payload.weight ?
-                        rockets[selectedIndex].payload.weight : '-' }}
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Payload Weight:</b><br> 
+                        {{ rockets[selectedIndex].payload.weight ? rockets[selectedIndex].payload.weight : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
-                        <b>Launched:</b><br> {{ rockets[selectedIndex].timestamps.launched ?
-                        rockets[selectedIndex].timestamps.launched : '-' }}
+                        <b>Mass:</b><br> {{ rockets[selectedIndex].mass ? (rockets[selectedIndex].mass | number) : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Deployed:</b><br> {{ rockets[selectedIndex].timestamps.deployed ?
-                        rockets[selectedIndex].timestamps.deployed : '-' }}
+                        (rockets[selectedIndex].timestamps.deployed | date: 'HH:mm:ss  dd.MM.yyyy':'UTC +6') : '-' }}
+                    </div>
+                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
+                        <b>Launched:</b><br> {{ rockets[selectedIndex].timestamps.launched ?
+                        (rockets[selectedIndex].timestamps.launched | date: 'HH:mm:ss  dd.MM.yyyy':'UTC +6')  : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Failed:</b><br> {{ rockets[selectedIndex].timestamps.failed ?
-                        rockets[selectedIndex].timestamps.failed : '-' }}
+                        (rockets[selectedIndex].timestamps.failed | date: 'HH:mm:ss  dd.MM.yyyy':'UTC +6') : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Canceled:</b><br> {{ rockets[selectedIndex].timestamps.canceled ?
-                        rockets[selectedIndex].timestamps.canceled : '-' }}
+                        (rockets[selectedIndex].timestamps.canceled | date: 'HH:mm:ss  dd.MM.yyyy':'UTC +6') : '-' }}
                     </div>
                     <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
                         <b>Telemetry:</b><br> {{
                         rockets[selectedIndex].telemetry.host+':'+rockets[selectedIndex].telemetry.port }}
-                    </div>
-                    <div class="border border-slate-300 px-1 py-1 shadow-inner bg-slate-50 overflow-hidden">
-                        <b>Mass:</b><br> {{ rockets[selectedIndex].mass ? rockets[selectedIndex].mass : '-' }}
                     </div>
 
                 </div>
