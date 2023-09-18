@@ -13,6 +13,7 @@ export class HomeComponent {
 	public weather: any = [];
 	public selectedIndex: any;
 	private loading: boolean = false;
+	private loadingWeather: boolean = false;
 
 	constructor(private websocketService: WebSocketService, private http: HttpService) {
 		//console.log('home component initialized.');
@@ -171,14 +172,20 @@ export class HomeComponent {
 	}
 
 	getWeather() {
+		if (this.loadingWeather) return;
+		this.loadingWeather = true;
 		this.http.get(
 			'//localhost:5000/weather',
 			[{ name: 'X-API-Key', value: 'API_KEY_1' }],
 			(data: any) => {
+				this.loadingWeather = false;
 				console.log(data);
 				this.weather = data;
 			},
-			'json'
+			'json',
+			(err: any) => {
+				this.loadingWeather = false;
+			}
 		);
 	}
 
