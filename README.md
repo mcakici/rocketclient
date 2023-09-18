@@ -1,3 +1,11 @@
+# Usage
+
+1. Run docker
+2. Run proxy websocket server `php -f ws.php`
+3. Run frontend `ng serve`
+4. Open localhost:4200
+
+
 # Rocketclient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.5.
@@ -5,7 +13,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-Then run `php -f ws.php` (Proxy server for the current system.)
+Then run `php -f ws.php` (Proxy server)
 
 ## Build
 
