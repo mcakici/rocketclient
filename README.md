@@ -1,3 +1,4 @@
+0. Run `npm install` (for node modules)
 1. Run docker
 2. Run proxy websocket server `php -f ws.php`
 3. Run frontend `ng serve`
