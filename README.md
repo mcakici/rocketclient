@@ -1,23 +1,19 @@
-# Usage
+## Usage
 
 1. Run docker
 2. Run proxy websocket server `php -f ws.php`
 3. Run frontend `ng serve`
 4. Open localhost:4200
 
-
-# Rocketclient
+## Rocketclient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.5.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-Then run `php -f ws.php` (Proxy server)
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Then run `php -f ws.php`
 
 ## References
 
@@ -32,6 +28,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - https://chat.openai.com/ (decoding hex)
 
 
-# Layout
+## Layout
 
-![Alt text](ss.png)
+![Screenshot](ss.png)
+
+![Animated-SS](ss-animated.gif)
