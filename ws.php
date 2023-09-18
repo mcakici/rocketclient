@@ -133,6 +133,7 @@ class telemetryWebSocket {
         /* if (count($this->telemetrySocket) > 0) {
             foreach ($this->telemetrySocket as $key => $socket) {
                 socket_close($socket);
+                unset($this->telemetrySocket[$key]);
             }
             $this->telemetrySocket = [];
         } */
