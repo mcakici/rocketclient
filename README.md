@@ -29,4 +29,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - https://www.php.net/ (PHP 8.0.13)
 - https://www.postman.com/
 - https://www.docker.com/
-- https://chat.openai.com/ (decoding hex telemetry communication protocol)
+- https://chat.openai.com/ (decoding hex)
+
+
+# Layout
+
+![Alt text](ss.png)
