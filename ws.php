@@ -108,10 +108,6 @@ class telemetryWebSocket {
         if (count($this->telemetrySocket) == 0) {
             $this->connectTCPSocket();
         }
-        
-        if (count($this->telemetrySocket) == 0) {
-            return false;
-        }
 
         try {
             $outputArr = [];
@@ -134,12 +130,12 @@ class telemetryWebSocket {
     }
 
     private function connectTCPSocket() {
-        if (count($this->telemetrySocket) > 0) {
+        /* if (count($this->telemetrySocket) > 0) {
             foreach ($this->telemetrySocket as $key => $socket) {
                 socket_close($socket);
             }
             $this->telemetrySocket = [];
-        }
+        } */
 
         foreach ($this->telemetryPorts as $key => $port) {
             /* Create a TCP/IP socket. */
