@@ -114,10 +114,10 @@ class telemetryWebSocket {
             foreach ($this->telemetrySocket as $key => $socket) {
                 $input = socket_read($socket, 2048, PHP_BINARY_READ);
                 $input = bin2hex($input);
-                if ($input === false || empty($input)){
-                    $this->connectTCPSocket();
+                if ($input === false || empty($input)) {
+                    $this->connectTCPSocket($key);
                 }
-    
+
                 $decodedFinalOutput = $this->telemetryDecode($input, $this->telemetryPorts[$key], $this->telemetryHost);
                 if ($decodedFinalOutput !== null) {
                     $outputArr[] = ($decodedFinalOutput);
@@ -129,25 +129,32 @@ class telemetryWebSocket {
         }
     }
 
-    private function connectTCPSocket() {
-        /* if (count($this->telemetrySocket) > 0) {
-            foreach ($this->telemetrySocket as $key => $socket) {
-                socket_close($socket);
-                unset($this->telemetrySocket[$key]);
-            }
-            $this->telemetrySocket = [];
-        } */
+    private function connectTCPSocket($key = null) {
+        if ($key !== null) {
+            socket_close($this->telemetrySocket[$key]);
+            unset($this->telemetrySocket[$key]);
 
-        foreach ($this->telemetryPorts as $key => $port) {
-            /* Create a TCP/IP socket. */
             $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             if ($this->telemetrySocket[$key] === false) {
                 echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
             }
 
-            $result = socket_connect($this->telemetrySocket[$key], $this->telemetryHost, $port);
+            $result = socket_connect($this->telemetrySocket[$key], $this->telemetryHost, $this->telemetryPorts[$key]);
             if ($result === false) {
                 echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->telemetrySocket[$key])) . "\n";
+            }
+        } else {
+            foreach ($this->telemetryPorts as $key => $port) {
+                /* Create a TCP/IP socket. */
+                $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                if ($this->telemetrySocket[$key] === false) {
+                    echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+                }
+
+                $result = socket_connect($this->telemetrySocket[$key], $this->telemetryHost, $port);
+                if ($result === false) {
+                    echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->telemetrySocket[$key])) . "\n";
+                }
             }
         }
     }
