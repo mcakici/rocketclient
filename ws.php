@@ -1,6 +1,7 @@
 <?php
 class telemetryWebSocket {
     private $telemetrySocket = array();
+    private $telemetryHost = "localhost";
     private $telemetryPorts = [4000, 4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008, 4009];
     private $clients = array();
 
@@ -33,6 +34,8 @@ class telemetryWebSocket {
 
         //create & add listning socket to the list
         $this->clients = array($socket);
+
+        echo "Server is running on port $port..\n";
 
         //start endless loop, so that our script doesn't stop
         while (true) {
@@ -87,7 +90,11 @@ class telemetryWebSocket {
                 }
             }
 
-            $this->send_message($this->mask($this->getDataFromTelemetry()));
+            $telemetryData = $this->getDataFromTelemetry();
+            if ($telemetryData) {
+                $this->send_message($this->mask($telemetryData));
+            }
+
             // 500ms delay
             usleep(500 * 1000);
 
@@ -98,34 +105,53 @@ class telemetryWebSocket {
     }
 
     private function getDataFromTelemetry() {
-        $address = "localhost";
-
         if (count($this->telemetrySocket) == 0) {
-            foreach ($this->telemetryPorts as $key => $port) {
-                /* Create a TCP/IP socket. */
-                $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-                if ($this->telemetrySocket[$key] === false) {
-                    echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
-                }
-
-                $result = socket_connect($this->telemetrySocket[$key], $address, $port);
-                if ($result === false) {
-                    echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->telemetrySocket[$key])) . "\n";
-                }
-            }
+            $this->connectTCPSocket();
+        }
+        
+        if (count($this->telemetrySocket) == 0) {
+            return false;
         }
 
-        while (true) {
+        try {
             $outputArr = [];
             foreach ($this->telemetrySocket as $key => $socket) {
                 $input = socket_read($socket, 2048, PHP_BINARY_READ);
                 $input = bin2hex($input);
-                $decodedFinalOutput = $this->telemetryDecode($input, $this->telemetryPorts[$key], $address);
+                if ($input === false || empty($input)){
+                    $this->connectTCPSocket();
+                }
+    
+                $decodedFinalOutput = $this->telemetryDecode($input, $this->telemetryPorts[$key], $this->telemetryHost);
                 if ($decodedFinalOutput !== null) {
                     $outputArr[] = ($decodedFinalOutput);
                 }
             }
             return json_encode($outputArr);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    private function connectTCPSocket() {
+        if (count($this->telemetrySocket) > 0) {
+            foreach ($this->telemetrySocket as $key => $socket) {
+                socket_close($socket);
+            }
+            $this->telemetrySocket = [];
+        }
+
+        foreach ($this->telemetryPorts as $key => $port) {
+            /* Create a TCP/IP socket. */
+            $this->telemetrySocket[$key] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+            if ($this->telemetrySocket[$key] === false) {
+                echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+            }
+
+            $result = socket_connect($this->telemetrySocket[$key], $this->telemetryHost, $port);
+            if ($result === false) {
+                echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->telemetrySocket[$key])) . "\n";
+            }
         }
     }
 
@@ -233,7 +259,7 @@ class telemetryWebSocket {
             "Upgrade: websocket\r\n" .
             "Connection: Upgrade\r\n" .
             "WebSocket-Origin: $host\r\n" .
-            "WebSocket-Location: ws://$host:$port/ws.php\r\n" .
+            "WebSocket-Location: ws://$host:$port/\r\n" .
             "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
         socket_write($client_conn, $upgrade, strlen($upgrade));
     }

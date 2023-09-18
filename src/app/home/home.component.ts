@@ -5,7 +5,7 @@ import { HttpService } from '../services/http/http.service';
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss']
+	styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
 	public rocketTelemetry: any = [];
@@ -82,21 +82,28 @@ export class HomeComponent {
 		if (this.loading) return;
 
 		this.loading = true;
-		this.http.get('//localhost:5000/rockets', [{ name: 'X-API-Key', value: 'API_KEY_1' }], (data: any) => {
-			if (document.getElementById('loadingText')?.innerText === 'Loading..')
-				this.loadingState(false);
-			this.loading = false;
-			if (this.rockets.length == 0) {
-				this.rockets = data;
-			} else {
-				for (let index = 0; index < data.length; index++) {
-					const e = data[index];
-					var roc = this.rockets.findIndex((x: any) => x.id === e.id);
-					this.rockets[roc].status = e.status;
-					this.rockets[roc].timestamps = e.timestamps;
+		this.http.get(
+			'//localhost:5000/rockets',
+			[{ name: 'X-API-Key', value: 'API_KEY_1' }],
+			(data: any) => {
+				if (document.getElementById('loadingText')?.innerText === 'Loading..') this.loadingState(false);
+				this.loading = false;
+				if (this.rockets.length == 0) {
+					this.rockets = data;
+				} else {
+					for (let index = 0; index < data.length; index++) {
+						const e = data[index];
+						var roc = this.rockets.findIndex((x: any) => x.id === e.id);
+						this.rockets[roc].status = e.status;
+						this.rockets[roc].timestamps = e.timestamps;
+					}
 				}
+			},
+			'json',
+			(err: any) => {
+				this.loading = false;
 			}
-		});
+		);
 	}
 
 	rocketSelected($event: any, rocket: any) {
@@ -164,10 +171,15 @@ export class HomeComponent {
 	}
 
 	getWeather() {
-		this.http.get('//localhost:5000/weather', [{ name: 'X-API-Key', value: 'API_KEY_1' }], (data: any) => {
-			console.log(data);
-			this.weather = data;
-		},'json');
+		this.http.get(
+			'//localhost:5000/weather',
+			[{ name: 'X-API-Key', value: 'API_KEY_1' }],
+			(data: any) => {
+				console.log(data);
+				this.weather = data;
+			},
+			'json'
+		);
 	}
 
 	loadingState(status: boolean, loadingText: string = 'Loading..') {

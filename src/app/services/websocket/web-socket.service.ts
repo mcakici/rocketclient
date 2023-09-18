@@ -28,7 +28,7 @@ export class WebSocketService {
 		return this.webSocketSubject$.asObservable();
 	}
 
-	public connect(channels: any, sslKullan: boolean, reconnectInterval: number = 250, reconnectAttempts: number = 15): void {
+	public connect(channels: any, sslKullan: boolean, reconnectInterval: number = 500, reconnectAttempts: number = 1500): void {
 		if (this.isConnected) return;
 
 		this.channels = this.channels.concat(channels);

@@ -107,7 +107,7 @@ export class HttpService {
 
 		return this.http
 			.post<any>(url, JSON.stringify(params), { observe: 'response', responseType: rspType ? rspType : 'json', headers: hdr })
-			.pipe(retry(20))
+			.pipe(retry(5))
 			.subscribe({
 				next: (data: any) => {
 					if (callback) callback(data.body);
