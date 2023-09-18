@@ -47,7 +47,7 @@ export class HomeComponent {
 			const host = roc.telemetry.host;
 			const port = roc.telemetry.port;
 
-			let wsinfo = this.websocketService.data.find((x: any) => x.port === port);
+			let wsinfo = this.websocketService.data?.find((x: any) => x.port === port);
 			if (wsinfo) {
 				if (!wsinfo.speed && !wsinfo.altitude && !wsinfo.acceleration && !wsinfo.thrust && roc.status === 'launched') {
 					roc.status = 'failed';
